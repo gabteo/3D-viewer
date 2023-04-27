@@ -4,7 +4,8 @@
 #define GUTILS_H
 
 #define DEFAULT_FILE_PATH "obj/Cube obj/Cube obj.obj"
-
+#define DEFAULT_VERTEX_SHADER_PATH "src/model_loading.vs"
+#define DEFAULT_FRAGMENT_SHADER_PATH "src/model_loading.fs"
 //screen
 #define HD_WIN_WIDTH 1280
 #define HD_WIN_HEIGH 720

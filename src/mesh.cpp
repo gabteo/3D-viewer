@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
-#include <filesystem>
+//#include <filesystem>
 //#include <boost>
 using namespace std;
 //using namespace std::filesystem;
@@ -23,7 +23,7 @@ using namespace std;
 #include "../includes/window.h"
 #include "../includes/errorType.h"
 #include "../includes/logging.h"
-//#include "../includes/model.h"
+#include "../includes/model.h"
 #include "../lib/utils.h"
 #include <math.h>
 
@@ -167,25 +167,23 @@ int main(int argc, char **argv)
 
 	logging* logger = logging::getInstance();
 	logger->setLogLevel(DEBUG);
-	logger->log(DEBUG, "Hello, OpenGL! I'm debug.");
-	logger->log(ERROR, "Hello, OpenGL! I'm error.");
+	//logger->log(DEBUG, "Hello, OpenGL! I'm debug.");
+	//logger->log(ERROR, "Hello, OpenGL! I'm error.");
 
 
-	static char* filepath;
+	char* filepath;
 	if(argc > 1)
 	{
 		filepath = argv[1];
-		//logger->log(INFO, "Abrindo arquivo...");
+		logger->log(INFO, "Abrindo arquivo...");
 
 	}
 	else
 	{
 		filepath = DEFAULT_FILE_PATH;
-		logger->log(ERROR, "ERRO: Nenhum arquivo recebido! Carregando arquivo padrão...");
+		logger->log(ERROR, "Nenhum arquivo recebido! Carregando arquivo padrão...");
 
 	}
-
-
 
 	logger->log(INFO, filepath);
 
@@ -196,17 +194,14 @@ int main(int argc, char **argv)
 		logger->log(ERROR, "ERRO: Não foi possível abrir o arquivo.");
 	}
 
-	//boost::filesystem::path p("C:\\folder\\foo.txt");
-	//filesystem FileSystem;
-	//Model ourModel(filepath);
-	
-	
 	setupGlut(&argc, argv);
 	glewInit(); 
-	registerCallbacks();
+	
+	Model ourModel(filepath);
 
     initData();
     initShaders();
+	registerCallbacks();
         	
 	
 	// enter GLUT event processing cycle

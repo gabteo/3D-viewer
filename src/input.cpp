@@ -191,7 +191,6 @@ error_type_t keyPressTranslation(unsigned char key)
 error_type_t keyPressTranslation(int key)
 {
     logger->log(DEBUG, "Arrow: TRANSLATION");
-    cout << key << endl;
     switch (key)
     {
     case GLUT_KEY_UP:
@@ -286,7 +285,7 @@ error_type_t keyPressRotation(int key)
 
 error_type_t keyPressScale(unsigned char key)
 {
-    logger->log(DEBUG, "Z scale not implemented.");
+    logger->log(ERROR, "Z scale not implemented.");
     switch (key)
     {
     case 'a':
