@@ -35,6 +35,8 @@ int createShaderProgram(const char *vertex_code, const char *fragment_code)
     glShaderSource(fragment, 1, &fragment_code, NULL);
 
     // Compile shaders
+	std::cout << "Compiling vertex shader...: " << std::endl;
+
     glCompileShader(vertex);
     glGetShaderiv(vertex, GL_COMPILE_STATUS, &success);
     if (!success)
@@ -42,7 +44,9 @@ int createShaderProgram(const char *vertex_code, const char *fragment_code)
 	glGetShaderInfoLog(vertex, 512, NULL, error);
 	std::cout << "ERROR: Shader comilation error: " << error << std::endl;
     }
-                
+
+	std::cout << "Compiling frag shader...: " << std::endl;
+    
     glCompileShader(fragment);
     glGetShaderiv(fragment, GL_COMPILE_STATUS, &success);
     if (!success)
@@ -52,6 +56,8 @@ int createShaderProgram(const char *vertex_code, const char *fragment_code)
     }
 
     // Attach shader objects to the program
+	std::cout << "Attaching shaders...: " << std::endl;
+
     glAttachShader(program, vertex);
     glAttachShader(program, fragment);
 

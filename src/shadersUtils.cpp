@@ -15,11 +15,11 @@ char* loadCodeFromFile(codes code) {
     //ifstream file;
 	if (code == codes::vertexCode) 
 	{
-		f = fopen("src/vertex_code.vs", "r");
+		f = fopen("src/model_loading.vs", "r");
 	}
 	else if (code == codes::fragmentCode)
 	{
-        f = fopen("src/fragment_code.fs", "r");
+        f = fopen("src/model_loading.fs", "r");
 	}
     if(f == NULL)
     {

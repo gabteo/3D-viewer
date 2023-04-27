@@ -3,7 +3,7 @@
 #ifndef GUTILS_H
 #define GUTILS_H
 
-#define DEFAULT_FILE_PATH ".obj"
+#define DEFAULT_FILE_PATH "obj/Cube obj/Cube obj.obj"
 
 //screen
 #define HD_WIN_WIDTH 1280
@@ -25,8 +25,28 @@ enum transform_type_t {
 };
 
 static transform_type_t transformMode = TRANSLATION;
-static bool faceView = true;
-static bool wireframeView = !faceView;
+extern bool faceView;
+extern bool wireframeView;
+
+
+
+
+extern float xPos;
+extern float yPos;
+extern float zPos;
+
+extern float xScale;
+extern float yScale;
+extern float zScale;
+
+extern float xRotation;
+extern float yRotation;
+extern float zRotation;
+
+static const float posIncrement = 0.02f;
+static const float scaleUpFactor = 1.1f;
+static const float scaleDownFactor = 0.9f;
+static const float rotationIncrement = 2.0f;
 
 /**------------------------------------------------*/
 

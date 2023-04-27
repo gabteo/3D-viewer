@@ -12,6 +12,32 @@ using namespace std;
 
 logging* logger = logging::getInstance();
 
+/* extern float xPos;
+extern float yPos;
+extern float zPos;
+
+extern float xScale;
+extern float yScale;
+extern float zScale;
+
+extern float xRotation;
+extern float yRotation;
+extern float zRotation; */
+
+ float xPos = 0.0f;
+ float yPos = 0.0f;
+ float zPos = 0.0f;
+
+ float xScale = 1.0f;
+ float yScale = 1.0f;
+ float zScale = 1.0f;
+
+ float xRotation = 0.0f;
+ float yRotation = 0.0f;
+ float zRotation = 0.0f;
+
+ bool faceView = true;
+ bool wireframeView = !faceView;
 
 error_type_t setTransformMode(transform_type_t mode)
 {
@@ -30,6 +56,8 @@ error_type_t toggleViewMode()
 
 void keyboard(unsigned char key, int x, int y)
 {
+
+
     switch (key)
     {
         case 't':
@@ -83,6 +111,8 @@ error_type_t transformKeyPress(unsigned char key)
     case TRANSLATION:
     {
         keyPressTranslation(key);
+        cout << "x: " << xPos << " y: " << yPos << " z: "<< zPos << endl;
+
         break;
     }
     case ROTATION:
@@ -112,6 +142,8 @@ void transformKeyPress(int key, int x, int y)
     case TRANSLATION:
     {
         keyPressTranslation(key);
+        cout << "x: " << xPos << " y: " << yPos << " z: "<< zPos << endl;
+
         break;
     }
     case ROTATION:
@@ -137,11 +169,13 @@ error_type_t keyPressTranslation(unsigned char key)
     {
     case 'a':
     {
+        zPos += posIncrement;
         logger->log(INFO, "TRANSLAÇÃO +z");
         break;
     }
     case 'd':
     {
+        zPos -= posIncrement;
         logger->log(INFO, "TRANSLAÇÃO -z");
         break;
     }
@@ -162,21 +196,26 @@ error_type_t keyPressTranslation(int key)
     {
     case GLUT_KEY_UP:
     {
+        yPos += posIncrement;
+
         logger->log(INFO, "TRANSLAÇÃO +y");
         break;
     }
     case GLUT_KEY_DOWN:
     {
+        yPos -= posIncrement;
         logger->log(INFO, "TRANSLAÇÃO -y");
         break;
     }
     case GLUT_KEY_LEFT:
     {
+        xPos -= posIncrement;
         logger->log(INFO, "TRANSLAÇÃO -x");
         break;
     }
     case GLUT_KEY_RIGHT:
     {
+        xPos += posIncrement;
         logger->log(INFO, "TRANSLAÇÃO +x");
         break;
     }    
@@ -194,11 +233,13 @@ error_type_t keyPressRotation(unsigned char key)
     {
     case 'a':
     {
+        zRotation += rotationIncrement;
         logger->log(INFO, "ROTAÇÃO +Z");
         break;
     }
     case 'd':
     {
+        zRotation -= rotationIncrement;
         logger->log(INFO, "ROTAÇÃO -Z");
         break;
     }
@@ -214,21 +255,26 @@ error_type_t keyPressRotation(int key)
     {
     case GLUT_KEY_UP:
     {
+        xRotation += rotationIncrement;
         logger->log(INFO, "ROTAÇÃO +X");
         break;
     }
     case GLUT_KEY_DOWN:
     {
+        xRotation -= rotationIncrement;
+
         logger->log(INFO, "ROTAÇÃO -X");
         break;
     }
     case GLUT_KEY_LEFT:
     {
+        yRotation -= rotationIncrement;
         logger->log(INFO, "ROTAÇÃO -Y");
         break;
     }
     case GLUT_KEY_RIGHT:
     {
+        yRotation += rotationIncrement;
         logger->log(INFO, "ROTAÇÃO +Y");
         break;
     }
@@ -240,6 +286,7 @@ error_type_t keyPressRotation(int key)
 
 error_type_t keyPressScale(unsigned char key)
 {
+    logger->log(DEBUG, "Z scale not implemented.");
     switch (key)
     {
     case 'a':
@@ -265,21 +312,25 @@ error_type_t keyPressScale(int key)
     {
     case GLUT_KEY_UP:
     {
+        yScale *= scaleUpFactor;
         logger->log(INFO, "ESCALA +Y");
         break;
     }
     case GLUT_KEY_DOWN:
     {
+        yScale *= scaleDownFactor;
         logger->log(INFO, "ESCALA -Y");
         break;
     }
     case GLUT_KEY_LEFT:
     {
+        xScale *= scaleDownFactor;
         logger->log(INFO, "ESCALA -X");
         break;
     }
     case GLUT_KEY_RIGHT:
     {
+        xScale *= scaleUpFactor;
         logger->log(INFO, "ESCALA +X");
         break;
     }
