@@ -55,7 +55,7 @@ error_type_t registerCallbacks() {
 	glutDisplayFunc(renderScene); 
 	glutKeyboardFunc(keyboard);
 	//glutMouseFunc(mouse);
-	
+	glutSpecialFunc(transformKeyPress);
 	return Success;
 }
 
@@ -78,7 +78,7 @@ int main(int argc, char **argv)
         
 
 	
-
+	
 	// enter GLUT event processing cycle
 	glutMainLoop(); 
 	//glutDestroyWindow(glutGetWindow());

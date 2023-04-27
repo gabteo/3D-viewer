@@ -15,25 +15,22 @@ static int win_height = WIN_HEIGH;
 static int window;
 
 
+enum transform_type_t {
+    TRANSLATION,
+    ROTATION,
+    SCALE
+};
 
+static transform_type_t transformMode = TRANSLATION;
+static bool faceView = true;
+static bool wireframeView = !faceView;
 
 /**------------------------------------------------*/
 
-enum class lista 
-{
-    lista0,
-    lista1,
-    lista2,
-    lista3,
-    lista4,
-    lista5,
-};
-
-static lista listaAtual = lista::lista5;
 /*-------------------------------------------*/
 
 //Geometry
-enum { X_AXIS, Y_AXIS };
+enum { X_AXIS, Y_AXIS, Z_AXIS };
 
 struct point
 {
