@@ -3,12 +3,15 @@
 #ifndef GUTILS_H
 #define GUTILS_H
 
+#define DEFAULT_FILE_PATH ".obj"
+
 //screen
 #define HD_WIN_WIDTH 1280
 #define HD_WIN_HEIGH 720
 
 #define WIN_WIDTH HD_WIN_WIDTH
 #define WIN_HEIGH HD_WIN_HEIGH
+
 
 static int win_width = WIN_WIDTH;
 static int win_height = WIN_HEIGH;

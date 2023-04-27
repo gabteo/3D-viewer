@@ -68,6 +68,31 @@ int main(int argc, char **argv)
 	logger->setLogLevel(DEBUG);
 	logger->log(DEBUG, "Hello, OpenGL! I'm debug.");
 	logger->log(ERROR, "Hello, OpenGL! I'm error.");
+
+
+	static char* filepath;
+	if(argc > 1)
+	{
+		filepath = argv[1];
+		//logger->log(INFO, "Abrindo arquivo...");
+
+	}
+	else
+	{
+		filepath = DEFAULT_FILE_PATH;
+		logger->log(ERROR, "ERRO: Nenhum arquivo recebido! Carregando arquivo padrão...");
+
+	}
+
+	logger->log(INFO, filepath);
+
+	FILE *f = fopen(filepath, "r");
+
+	if(f == nullptr)
+	{
+		logger->log(ERROR, "ERRO: Não foi possível abrir o arquivo.");
+	}
+
 	setupGlut(&argc, argv);
 	glewInit(); 
 	registerCallbacks();

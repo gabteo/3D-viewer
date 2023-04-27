@@ -275,12 +275,12 @@ error_type_t keyPressScale(int key)
     }
     case GLUT_KEY_LEFT:
     {
-        logger->log(INFO, "ROTAÇÃO -X");
+        logger->log(INFO, "ESCALA -X");
         break;
     }
     case GLUT_KEY_RIGHT:
     {
-        logger->log(INFO, "ROTAÇÃO +X");
+        logger->log(INFO, "ESCALA +X");
         break;
     }
     
