@@ -39,20 +39,63 @@ bool firstMouse = true; */
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
+Shader* shaderP;
+Model* modelP;
+
+
 void initData()
 {
     // Set triangle vertices.
     float vertices[] = {
-	// First triangle
-        // coordinate     color
-        -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f,
-         0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
-        -0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
-        // Second triangle
-        // coordinate     color
-         0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
-         0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
-        -0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f
+	//Front face first triangle.
+        // coordinate       // color
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 1.0f,
+         0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 1.0f,
+         0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 1.0f,
+        //Front face second triangle.
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 1.0f,
+         0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 1.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 1.0f,
+        // Right face first triangle.
+         0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 0.0f,
+         0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
+         0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
+        // Right face second triangle.
+         0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 0.0f,
+         0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  0.0f, 1.0f, 0.0f,
+        // Back face first triangle.
+         0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 1.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 1.0f,
+        // Back face second triangle.
+         0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 1.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 1.0f,
+         0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 1.0f,
+        // Left face first triangle.
+        -0.5f, -0.5f, -0.5f,  1.0f, 0.0f, 0.0f,
+        -0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 0.0f,
+        // Left face second triangle.
+        -0.5f, -0.5f, -0.5f,  1.0f, 0.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 0.0f,
+        -0.5f,  0.5f, -0.5f,  1.0f, 0.0f, 0.0f,
+        // Top face first triangle.
+        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 1.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 1.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 0.0f, 1.0f,
+        // Top face second triangle.
+        -0.5f,  0.5f, 0.5f,  1.0f, 0.0f, 1.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 0.0f, 1.0f,
+        -0.5f,  0.5f, -0.5f,  1.0f, 0.0f, 1.0f,
+        // Bottom face first triangle.
+        -0.5f, -0.5f, 0.5f,  1.0f, 1.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 1.0f,
+         0.5f, -0.5f, 0.5f,  1.0f, 1.0f, 1.0f,
+        // Bottom face second triangle.
+        -0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 1.0f,
+         0.5f, -0.5f,  0.5f,  1.0f, 1.0f, 1.0f
     };
     
     // Vertex array.
@@ -94,7 +137,9 @@ void renderScene(){
 	setBackgroundColor(lightBrown);
     //setBackgroundColor(rgbToFloat(3, 169, 252));
     //glClearColor(0.87, 0.72, 0.53, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	shaderP->use();
 
 	// TRANSLATE
 	glm::mat4 T = glm::translate(glm::mat4(1.0f), glm::vec3(xPos,yPos,zPos));
@@ -113,6 +158,9 @@ void renderScene(){
 	glm::mat4 M = glm::mat4(1.0f);
 	M = T*Rz*Ry*Rx*S;
 
+	shaderP->setMat4("model", M);
+	modelP->Draw(*shaderP, wireframeView);
+
 	glUseProgram(program);
     glBindVertexArray(VAO);
 
@@ -124,11 +172,11 @@ void renderScene(){
 	
 	if(wireframeView)
 	{
-  		glDrawArrays(GL_LINE_LOOP, 0, 6);
+  		glDrawArrays(GL_LINE_LOOP, 0, 36);
 	}
 	else 
 	{
-  		glDrawArrays(GL_TRIANGLES, 0, 6);
+  		glDrawArrays(GL_TRIANGLES, 0, 36);
 	}
 
 	glutSwapBuffers();
@@ -147,6 +195,8 @@ error_type_t setupGlut(int* argc, char **argv){
 	glutInitWindowSize(win_width, win_height);
 
 	window = glutCreateWindow(argv[1]);
+
+	glEnable(GL_DEPTH_TEST);
 	return Success;
 }
 
@@ -161,6 +211,10 @@ error_type_t registerCallbacks() {
 }
 
 logging* logging::loggingInstance = nullptr;
+
+
+
+
 
 int main(int argc, char **argv) 
 {
@@ -191,16 +245,22 @@ int main(int argc, char **argv)
 
 	if(f == nullptr)
 	{
-		logger->log(ERROR, "ERRO: Não foi possível abrir o arquivo.");
+		logger->log(ERROR, "Não foi possível abrir o arquivo.");
+		logger->log(ERROR, "Carregando arquivo padrão...");
+		filepath = DEFAULT_FILE_PATH;
 	}
 
 	setupGlut(&argc, argv);
 	glewInit(); 
-	
-	Model ourModel(filepath);
 
-    initData();
-    initShaders();
+	Shader myShader("src/model_loading.vs", "src/model_loading.fs");
+	shaderP = &myShader;
+
+	Model modelLoaded(filepath);
+	modelP = &modelLoaded;
+
+    //initData();
+    //initShaders();
 	registerCallbacks();
         	
 	

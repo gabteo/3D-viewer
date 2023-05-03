@@ -73,6 +73,7 @@ void keyboard(unsigned char key, int x, int y)
             break;
         }
         case 'e':
+        case 's':
         {  
             logger->log(INFO, "Entering SCALE mode.");
             setTransformMode(SCALE);
