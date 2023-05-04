@@ -101,13 +101,15 @@ public:
         glBindVertexArray(VAO);
         if(wireframe)
         {
-            glDrawElements(GL_LINE_LOOP, static_cast<unsigned int>(indices.size()), GL_UNSIGNED_INT, 0);
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+            glDrawElements(GL_TRIANGLES, static_cast<unsigned int>(indices.size()), GL_UNSIGNED_INT, 0);
         }
         else
         {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
             glDrawElements(GL_TRIANGLES, static_cast<unsigned int>(indices.size()), GL_UNSIGNED_INT, 0);
         }
-        glBindVertexArray(0);
+        glBindVertexArray(0);   
 
         // always good practice to set everything back to defaults once configured.
         glActiveTexture(GL_TEXTURE0);
