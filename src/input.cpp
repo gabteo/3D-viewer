@@ -36,8 +36,13 @@ extern float zRotation; */
  float yRotation = 0.0f;
  float zRotation = 0.0f;
 
+ float viewingAngle = 60.0f;
+ 
+
  bool faceView = true;
  bool wireframeView = !faceView;
+
+ bool ortho = true;
 
 error_type_t setTransformMode(transform_type_t mode)
 {
@@ -85,6 +90,18 @@ void keyboard(unsigned char key, int x, int y)
             toggleViewMode();
             break;
         }
+        case 'p':
+        {
+            logger->log(INFO, "Toggling PROJECTION mode.");
+            ortho = !ortho;
+            break;
+        }
+        case 'c':
+        {
+            logger->log(INFO, "Entering CAMERA mode.");
+            setTransformMode(CAMERA);
+            break;
+        }
         case 27: //esc
         case 'q':
         case 'Q':
@@ -119,11 +136,13 @@ error_type_t transformKeyPress(unsigned char key)
     case ROTATION:
     {
         keyPressRotation(key);
+        cout << "Rx: " << ((int)xRotation) % 360 << " Ry: " << ((int)yRotation) % 360 << " Rz: " << ((int)zRotation) % 360 << endl;
         break;
     }
     case SCALE:
     {
         keyPressScale(key);
+        cout << "Sx: " << xScale << " Sy: " << yScale << " Sz: " << zScale << endl;
         break;
     }
     
@@ -149,12 +168,14 @@ void transformKeyPress(int key, int x, int y)
     }
     case ROTATION:
     {
+        cout << "Rx: " << ((int)xRotation) % 360 << " Ry: " << ((int)yRotation) % 360 << " Rz: " << ((int)zRotation) % 360 << endl;
         keyPressRotation(key);
         break;
     }
     case SCALE:
     {
         keyPressScale(key);
+        cout << "Sx: " << xScale << " Sy: " << yScale << " Sz: " << zScale << endl;
         break;
     }
     
@@ -286,16 +307,34 @@ error_type_t keyPressRotation(int key)
 
 error_type_t keyPressScale(unsigned char key)
 {
-    logger->log(ERROR, "Z scale not implemented.");
     switch (key)
     {
+    case '=':
+    case '+':
+    {
+        xScale *= scaleUpFactor;
+        yScale *= scaleUpFactor;
+        zScale *= scaleUpFactor;
+        break;
+
+    }
+    case '-':
+    {
+        xScale *= scaleDownFactor;
+        yScale *= scaleDownFactor;
+        zScale *= scaleDownFactor;
+        break;
+
+    }
     case 'a':
     {
+        zScale *= scaleUpFactor;
         logger->log(INFO, "ESCALA +Z");
         break;
     }
     case 'd':
     {
+        zScale *= scaleDownFactor;
         logger->log(INFO, "ESCALA -Z");
         break;
     }

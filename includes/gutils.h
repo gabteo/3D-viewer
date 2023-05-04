@@ -22,12 +22,14 @@ static int window;
 enum transform_type_t {
     TRANSLATION,
     ROTATION,
-    SCALE
+    SCALE,
+    CAMERA
 };
 
 static transform_type_t transformMode = TRANSLATION;
 extern bool faceView;
 extern bool wireframeView;
+extern bool ortho;
 
 
 
@@ -44,10 +46,13 @@ extern float xRotation;
 extern float yRotation;
 extern float zRotation;
 
+extern float viewingAngle;
+
 static const float posIncrement = 0.02f;
 static const float scaleUpFactor = 1.1f;
 static const float scaleDownFactor = 0.9f;
 static const float rotationIncrement = 2.0f;
+static const float viewingAngleIncrement = 5.0f;
 
 /**------------------------------------------------*/
 

@@ -155,11 +155,42 @@ void renderScene(){
 	// SCALE
    	glm::mat4 S = glm::scale(glm::mat4(1.0f), glm::vec3(xScale, yScale, zScale));
 
+	// Set model matrix
 	glm::mat4 M = glm::mat4(1.0f);
 	M = T*Rz*Ry*Rx*S;
 
 	shaderP->setMat4("model", M);
+
+	{
+		if(ortho)
+		{
+			glm::mat4 projection = glm::ortho(-2.0f, 2.0f, -2.0f, 2.0f, 0.1f, 100.0f);
+			shaderP->setMat4("projection", projection);
+		}
+		else
+		{
+			glm::mat4 projection = glm::perspective(glm::radians(viewingAngle), (win_width/(float)win_height), 0.1f, 100.0f);
+			shaderP->setMat4("projection", projection);
+
+		}
+
+		// Retrieve location of tranform variable in shader.	
+ 		//loc = glGetUniformLocation(program, "projection");
+   		// Send matrix to shader.
+		//glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(projection));
+	}
+
+	{
+		// Define view matrix.
+		glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f,0.0f,-3.0f));
+		shaderP->setMat4("view", view);
+
+	}
+
+
+
 	modelP->Draw(*shaderP, wireframeView);
+
 
 	glUseProgram(program);
     glBindVertexArray(VAO);
@@ -167,6 +198,11 @@ void renderScene(){
 	unsigned int loc = glGetUniformLocation(program, "model");
 
 	glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(M));
+
+
+	// projection matrix
+
+		
 
 
 	
