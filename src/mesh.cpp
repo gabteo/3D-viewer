@@ -191,6 +191,8 @@ void renderScene(){
 
 	modelP->Draw(*shaderP, wireframeView);
 
+	
+
 
 	glUseProgram(program);
     glBindVertexArray(VAO);

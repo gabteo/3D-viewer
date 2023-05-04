@@ -51,7 +51,7 @@ public:
     vector<Vertex>       vertices;
     vector<unsigned int> indices;
     vector<Texture>      textures;
-    unsigned int VAO;
+    unsigned int VAO, NAO;
 
     // constructor
     Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures)
@@ -91,6 +91,10 @@ public:
             glUniform1i(glGetUniformLocation(shader.ID, (name + number).c_str()), i);
             // and finally bind the texture
             glBindTexture(GL_TEXTURE_2D, textures[i].id);
+
+
+/*             unsigned int loc = glGetUniformLocation(shader.ID, "normal");
+            glUniform3f(loc, 1.0f, 1.0f, 1.0f); */
         }
         
         // draw mesh
@@ -132,14 +136,11 @@ private:
         // A great thing about structs is that their memory layout is sequential for all its items.
         // The effect is that we can simply pass a pointer to the struct and it translates perfectly to a glm::vec3/2 array which
         // again translates to 3/2 floats which translates to a byte array.
-	cout << "TTT1" << endl;
 
         glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);  
-	cout << "TTT2" << endl;
-
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
-	cout << "TTT3" << endl;
+
 
         // set the vertex attribute pointers
         // vertex Positions
@@ -148,6 +149,8 @@ private:
         // vertex normals
         glEnableVertexAttribArray(1);	
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Normal));
+        
+        // Unbind Vertex Array Object.        
         glBindVertexArray(0);
     }
 };
