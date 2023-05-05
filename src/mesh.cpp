@@ -134,8 +134,8 @@ void renderScene(){
     cout << "Rendering..." <<  endl;
 
 	//xPos = 0.3;
-	setBackgroundColor(lightBrown);
-    //setBackgroundColor(rgbToFloat(3, 169, 252));
+	//setBackgroundColor(lightBrown);
+    setBackgroundColor(rgbToFloat(10, 0, 15));
     //glClearColor(0.87, 0.72, 0.53, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

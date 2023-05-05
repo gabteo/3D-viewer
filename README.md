@@ -4,10 +4,17 @@ Computer Graphics project for viewing 3D .obj files using OpenGL
 ![image](https://img.shields.io/badge/C++-00599C.svg?style=for-the-badge&logo=C++&logoColor=white)
 ![image](https://img.shields.io/badge/OpenGL-5586A4.svg?style=for-the-badge&logo=OpenGL&logoColor=white)
 
+<p align="center">
+<img src="docs/00-intro3.gif">
+</p>
+
 # Supported features
 - Vertex loading (using Assimp lib)
 - Geometric transforms
 - Normal and wireframe views
+<p align="center">
+<img src="docs/02-mario-wireframe.gif" alt= “” width="40%" height="40%">
+</p>
 
 # Usage
 This software is compatible with Linux environments. 
@@ -37,7 +44,12 @@ For example, try
 
 Use the arrow keys, `a` and `d` for changing parameters in each mode.
 
-In scale mode:
+### In scale mode:
+
+<p align="center">
+<img src="docs/01-mario-zoom.gif" alt= “” width="40%" height="40%">
+</p>
+
 | Key | Action |
 | --- | --- |
 | = | Increase scale proportionally |
@@ -46,19 +58,28 @@ In scale mode:
 | Down and up arrows | Change scale in y-axis |
 | `a` and `d` | Change scale in z-axis |
 
-In translation mode:
+### In translation mode:
+
 | Key | Action |
 | --- | --- |
 | Left and right arrows | Move in x-axis |
 | Down and up arrows | Move in y-axis |
 | `a` and `d` | Move in z-axis |
 
-In rotation mode:
+### In rotation mode:
+
+| Fill | Wireframe |
+| --- | --- |
+|[](docs/03-mario-rotate.gif) | [](docs/04-mario-rotate-wireframe.gif) |
+
+
 | Key | Action |
 | --- | --- |
 | Left and right arrows | Rotate in y-axis |
 | Down and up arrows | Rotate in x-axis |
 | `a` and `d` | Rotate in z-axis |
+
+# Other demonstrations
 
 
 # Dependencies
