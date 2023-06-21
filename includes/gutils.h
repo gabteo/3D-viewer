@@ -8,7 +8,7 @@
 #define DEFAULT_FRAGMENT_SHADER_PATH "src/model_loading.fs"
 //screen
 #define HD_WIN_WIDTH 1280
-#define HD_WIN_HEIGH 720
+#define HD_WIN_HEIGH 1280
 
 #define WIN_WIDTH HD_WIN_WIDTH
 #define WIN_HEIGH HD_WIN_HEIGH

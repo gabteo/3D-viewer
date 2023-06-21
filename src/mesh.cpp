@@ -24,8 +24,9 @@ using namespace std;
 #include "../includes/errorType.h"
 #include "../includes/logging.h"
 #include "../includes/model.h"
-#include "../lib/utils.h"
+#include "../includes/utils.h"
 #include <math.h>
+
 
 
 
@@ -130,12 +131,11 @@ void initShaders()
 }
 
 void renderScene(){
-    //printf("Rendering...\n");
     cout << "Rendering..." <<  endl;
 
 	//xPos = 0.3;
-	//setBackgroundColor(lightBrown);
-    setBackgroundColor(rgbToFloat(10, 0, 15));
+	setBackgroundColor(darkBrown);
+    //setBackgroundColor(rgbToFloat(10, 0, 15));
     //glClearColor(0.87, 0.72, 0.53, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
