@@ -3,8 +3,8 @@ CFLAGS = -Wno-write-strings
 LDFLAGS = -lm -L./resource -Wl,-rpath,'$$ORIGIN/resource' -lGL -Lresource -lzlibstatic -lassimp
 GLLIBS = -lglut -lGLEW -lGL -lGLU 
 # -libassimp.so  -libassimp.so.5  -libassimp.so.5.2.5
-FILES = mesh.cpp input.cpp colors.cpp gutils.cpp shadersUtils.cpp window.cpp logging.cpp utils.cpp
-OBJFILES = mesh.o input.o colors.o gutils.o shadersUtils.o window.o logging.o utils.o
+FILES = mesh.cpp input.cpp colors.cpp gutils.cpp shadersUtils.cpp window.cpp logging.cpp utils.cpp stb_image.cpp
+OBJFILES = mesh.o input.o colors.o gutils.o shadersUtils.o window.o logging.o utils.o stb_image.o
 TARGET = mesh
 #LIBUTILS = lib/utils.cpp
 

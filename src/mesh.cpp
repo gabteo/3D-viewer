@@ -25,6 +25,7 @@ using namespace std;
 #include "../includes/logging.h"
 #include "../includes/model.h"
 #include "../includes/utils.h"
+#include "../includes/stb_image.h"
 #include <math.h>
 
 
@@ -161,6 +162,7 @@ void renderScene(){
 
 	
 	// LIGHTING ------------------
+	glBindTexture(GL_TEXTURE_CUBE_MAP, texture);
     glBindVertexArray(VAO);
 	
 	glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
@@ -251,12 +253,12 @@ char* getModelPath(int argc, char **argv) {
 	char* filepath;
 	if(argc > 1){
 		filepath = argv[1];
-		logger->log(INFO, "Abrindo arquivo...");
+		logger->log(INFO, "Abrindo arquivo do modelo...");
 
 	}
 	else{
 		filepath = DEFAULT_FILE_PATH;
-		logger->log(ERROR, "Nenhum arquivo recebido! Carregando arquivo padrão...");
+		logger->log(ERROR, "Nenhum arquivo recebido! Carregando modelo padrão...");
 
 	}
 
@@ -265,9 +267,61 @@ char* getModelPath(int argc, char **argv) {
 	FILE *f = fopen(filepath, "r");
 
 	if(f == nullptr){
-		logger->log(ERROR, "Não foi possível abrir o arquivo.");
-		logger->log(ERROR, "Carregando arquivo padrão...");
+		logger->log(ERROR, "Não foi possível abrir o arquivo do modelo.");
+		logger->log(ERROR, "Carregando modelo padrão...");
 		filepath = DEFAULT_FILE_PATH;
+	}
+	fclose(f);
+	return filepath;
+}
+
+char* getTexturePath(int argc, char **argv) {
+	char* filepath;
+	if(argc > 2){
+		filepath = argv[2];
+		logger->log(INFO, "Abrindo arquivo de textura...");
+
+	}
+	else{
+		filepath = DEFAULT_TEXTURE_PATH;
+		logger->log(ERROR, "Nenhuma textura recebida! Carregando textura padrão...");
+
+	}
+
+	logger->log(INFO, filepath);
+
+	FILE *f = fopen(filepath, "r");
+
+	if(f == nullptr){
+		logger->log(ERROR, "Não foi possível abrir o arquivo de textura.");
+		logger->log(ERROR, "Carregando textura padrão...");
+		filepath = DEFAULT_TEXTURE_PATH;
+	}
+	fclose(f);
+	return filepath;
+}
+
+char* getNormalMapPath(int argc, char **argv) {
+	char* filepath;
+	if(argc > 3){
+		filepath = argv[3];
+		logger->log(INFO, "Abrindo arquivo do mapa de normais...");
+
+	}
+	else{
+		filepath = DEFAULT_NORMAL_MAP_PATH;
+		logger->log(ERROR, "Nenhum mapa de normais recebido! Carregando mapa de normais padrão...");
+
+	}
+
+	logger->log(INFO, filepath);
+
+	FILE *f = fopen(filepath, "r");
+
+	if(f == nullptr){
+		logger->log(ERROR, "Não foi possível abrir o arquivo de mapa de normais.");
+		logger->log(ERROR, "Carregando mapa de normais padrão...");
+		filepath = DEFAULT_NORMAL_MAP_PATH;
 	}
 	fclose(f);
 	return filepath;
@@ -282,8 +336,14 @@ int main(int argc, char **argv)
 	//logger->log(ERROR, "Hello, OpenGL! I'm error.");
 
 	char* filepath = getModelPath(argc, argv);
+	char* texturePath = getTexturePath(argc, argv);
+	char* normalMapPath = getNormalMapPath(argc, argv);
 	
+	int textureWidth, texturHeight, textureChannelsAmount;
+	unsigned char *textureData = stbi_load(texturePath, &textureWidth, &texturHeight, &textureChannelsAmount, 0); 
+
 	
+
 
 	setupGlut(&argc, argv);
 	glewInit(); 
@@ -302,7 +362,38 @@ int main(int argc, char **argv)
 	initVAO();
     initShaders();
 	registerCallbacks();
-        	
+
+	glGenTextures(1, &texture);  
+	glBindTexture(GL_TEXTURE_CUBE_MAP, texture);  
+	// set the texture wrapping/filtering options (on the currently bound texture object)
+/* 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); */
+
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);  
+
+	if(textureData) {
+		for(unsigned int i = 0; i < 6; i++)
+		{
+			glTexImage2D(
+				GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 
+				0, GL_RGB, textureWidth, texturHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, textureData
+			);
+		}
+		//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, textureWidth, texturHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, textureData);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	} 
+	else {
+		logger->log(ERROR, "Não foi possível abrir o arquivo de mapa de normais.");
+	}
+
+	stbi_image_free(textureData);
+
 	
 	// enter GLUT event processing cycle
 	glutMainLoop(); 

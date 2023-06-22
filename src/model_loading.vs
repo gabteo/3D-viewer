@@ -5,6 +5,7 @@ layout (location = 1) in vec3 normal;
 //in vec3 normal;
 out vec3 normalCorrected;
 out vec3 FragPos;
+out vec3 TexCoords;
 
 //out vec2 TexCoords;
 
@@ -20,5 +21,6 @@ void main()
     
     FragPos = vec3(model * vec4(position, 1.0));
     normalCorrected = mat3(transpose(inverse(model))) * normal;
+    TexCoords = position;
 
 }

@@ -41,6 +41,8 @@ static unsigned int VBO;
 static unsigned int lightVBO;
 
 static unsigned int lightVAO;
+static unsigned int texture;
+
 
 /**
  * Loads a file containg the vertex shader or the fragment shader

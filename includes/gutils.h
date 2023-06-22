@@ -3,7 +3,9 @@
 #ifndef GUTILS_H
 #define GUTILS_H
 
-#define DEFAULT_FILE_PATH "obj/Cube obj/Cube obj.obj"
+#define DEFAULT_FILE_PATH "resource/Cube.obj"
+#define DEFAULT_NORMAL_MAP_PATH "resource/txt/stool_2K_Normal_LOD0.jpg"
+#define DEFAULT_TEXTURE_PATH "resource/txt/stool_2K_Albedo.jpg"
 #define DEFAULT_VERTEX_SHADER_PATH "src/model_loading.vs"
 #define DEFAULT_FRAGMENT_SHADER_PATH "src/model_loading.fs"
 //screen
