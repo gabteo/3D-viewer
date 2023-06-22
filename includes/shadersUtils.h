@@ -38,6 +38,7 @@ static int program;
 static unsigned int VAO;
 /** Vertex buffer object. */
 static unsigned int VBO;
+static unsigned int lightVBO;
 
 static unsigned int lightVAO;
 

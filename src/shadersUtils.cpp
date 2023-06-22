@@ -11,7 +11,7 @@ using namespace std;
 #include "../includes/gutils.h"
 #include "../includes/logging.h"
 
-char* loadCodeFromFile(codes code) {
+/* char* loadCodeFromFile(codes code) {
 
 	logging* logger = logging::getInstance();
 	FILE *f;
@@ -49,7 +49,7 @@ char* loadCodeFromFile(codes code) {
     cout << "Início do código do " << ((code == codes::vertexCode)? "Vertex" : "Fragment") << "Shader" << endl;
 	logger->log(DEBUG, string);
 	return string;
-}
+} */
 
 
 

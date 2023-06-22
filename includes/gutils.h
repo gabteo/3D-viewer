@@ -85,5 +85,4 @@ point normalizeClick(int x, int y);
 float normalizeClickInAxis(int value, int axis, int win_width, int win_height);
 
 
-
 #endif
