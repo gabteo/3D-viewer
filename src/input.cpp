@@ -10,8 +10,8 @@
 #include <iostream>
 using namespace std;
 
-logging* logger = logging::getInstance();
-
+//logging* logger = logging::getInstance();
+extern logging* logger;
 /* extern float xPos;
 extern float yPos;
 extern float zPos;
@@ -208,6 +208,7 @@ error_type_t keyPressTranslation(unsigned char key)
 
     // TODO
     // print position
+    return Success;
 }
 
 error_type_t keyPressTranslation(int key)
@@ -246,6 +247,8 @@ error_type_t keyPressTranslation(int key)
 
     // TODO
     // print position
+    return Success;
+
 }
 
 error_type_t keyPressRotation(unsigned char key)
@@ -268,6 +271,8 @@ error_type_t keyPressRotation(unsigned char key)
     default:
         break;
     }
+    return Success;
+
 }
 
 error_type_t keyPressRotation(int key)
@@ -303,6 +308,8 @@ error_type_t keyPressRotation(int key)
     default:
         break;
     }
+    return Success;
+
 }
 
 error_type_t keyPressScale(unsigned char key)

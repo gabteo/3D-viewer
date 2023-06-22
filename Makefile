@@ -1,5 +1,5 @@
 CC = g++ 
-CFLAGS = -Wall
+CFLAGS = -Wno-write-strings
 LDFLAGS = -lm -L./resource -Wl,-rpath,'$$ORIGIN/resource' -lGL -Lresource -lzlibstatic -lassimp
 GLLIBS = -lglut -lGLEW -lGL -lGLU 
 # -libassimp.so  -libassimp.so.5  -libassimp.so.5.2.5
@@ -28,9 +28,11 @@ mesh : $(OBJFILES)
 $(OBJFILES):%.o:src/%.cpp 
 	@g++ -MM -MF $(basename $@).dep $<
 	@echo "Compiling $@..."
-	$(CC) -c $< $(INC) $(LIB) $(GLLIBS) $(LDFLAGS) $(DEPFLAGS)
+	$(CC) $(CFLAGS) -c $< $(INC) $(LIB) $(GLLIBS) $(LDFLAGS) $(DEPFLAGS)
 	
 
 
 clean:
 	rm -f mesh *.o *.d *.dep
+
+#FORCE:

@@ -39,6 +39,8 @@ static unsigned int VAO;
 /** Vertex buffer object. */
 static unsigned int VBO;
 
+static unsigned int lightVAO;
+
 /**
  * Loads a file containg the vertex shader or the fragment shader
 */

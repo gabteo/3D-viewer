@@ -43,81 +43,8 @@ float lastFrame = 0.0f;
 Shader* shaderP;
 Model* modelP;
 
-
-void initData()
-{
-    // Set triangle vertices.
-    float vertices[] = {
-	//Front face first triangle.
-        // coordinate       // color
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 1.0f,
-         0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 1.0f,
-         0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 1.0f,
-        //Front face second triangle.
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 1.0f,
-         0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 1.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 1.0f,
-        // Right face first triangle.
-         0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 0.0f,
-         0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
-         0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
-        // Right face second triangle.
-         0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 0.0f,
-         0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,  0.0f, 1.0f, 0.0f,
-        // Back face first triangle.
-         0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 1.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 1.0f,
-        // Back face second triangle.
-         0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 1.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 1.0f,
-         0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 1.0f,
-        // Left face first triangle.
-        -0.5f, -0.5f, -0.5f,  1.0f, 0.0f, 0.0f,
-        -0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 0.0f,
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 0.0f,
-        // Left face second triangle.
-        -0.5f, -0.5f, -0.5f,  1.0f, 0.0f, 0.0f,
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 0.0f,
-        -0.5f,  0.5f, -0.5f,  1.0f, 0.0f, 0.0f,
-        // Top face first triangle.
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 1.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 1.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 0.0f, 1.0f,
-        // Top face second triangle.
-        -0.5f,  0.5f, 0.5f,  1.0f, 0.0f, 1.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 0.0f, 1.0f,
-        -0.5f,  0.5f, -0.5f,  1.0f, 0.0f, 1.0f,
-        // Bottom face first triangle.
-        -0.5f, -0.5f, 0.5f,  1.0f, 1.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 1.0f,
-         0.5f, -0.5f, 0.5f,  1.0f, 1.0f, 1.0f,
-        // Bottom face second triangle.
-        -0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 1.0f,
-         0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 1.0f,
-         0.5f, -0.5f,  0.5f,  1.0f, 1.0f, 1.0f
-    };
-    
-    // Vertex array.
-    glGenVertexArrays(1, &VAO);
-    glBindVertexArray(VAO);
-
-    // Vertex buffer
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW);
-    
-    // Set attributes.
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6*sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6*sizeof(float), (void*)(3*sizeof(float)));
-    glEnableVertexAttribArray(1);
-
-    // Unbind Vertex Array Object.
-    glBindVertexArray(0);
-}
+logging* logging::loggingInstance = nullptr;
+logging* logger = logging::getInstance();
 
 /** Create program (shaders).
  * 
@@ -130,12 +57,51 @@ void initShaders()
     program = createShaderProgram(loadCodeFromFile(codes::vertexCode), loadCodeFromFile(codes::fragmentCode));
 }
 
+void initLightVAO(){
+	// light VAO
+	glGenVertexArrays(1, &lightVAO);
+	glBindVertexArray(lightVAO);
+	// we only need to bind to the VBO, the container's VBO's data already contains the data.
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	// set the vertex attribute 
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(2);
+}
+
+void initDefaultVAO(){
+    // Vertex array.
+    glGenVertexArrays(1, &VAO);
+    glBindVertexArray(VAO);
+
+    // Vertex buffer
+    glGenBuffers(1, &VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+
+    //glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW);
+    
+    // Set attributes.
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6*sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6*sizeof(float), (void*)(3*sizeof(float)));
+    glEnableVertexAttribArray(1);
+
+    // Unbind Vertex Array Object.
+    glBindVertexArray(0);
+}
+
+void initVAO()
+{
+	initDefaultVAO();
+	initLightVAO();
+}
+
 void renderScene(){
     cout << "Rendering..." <<  endl;
 
 	//xPos = 0.3;
-	setBackgroundColor(darkBrown);
+	//setBackgroundColor(darkBrown);
     //setBackgroundColor(rgbToFloat(10, 0, 15));
+    setBackgroundColor(rgbToFloat(45, 64, 160));
     //glClearColor(0.87, 0.72, 0.53, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -186,7 +152,17 @@ void renderScene(){
 		shaderP->setMat4("view", view);
 
 	}
+	
+	
+	
+	glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
+	glm::vec3 objectColor(1.0f, 0.7f, 0.31f);
+	glm::vec3 lightResult = lightColor * objectColor; // = (1.0f, 0.5f, 0.31f);
 
+
+	shaderP->setVec3("lightColor", lightColor);
+	shaderP->setVec3("objectColor", objectColor);
+	shaderP->setFloat("ambientAtenuation", 1.0f);
 
 
 	modelP->Draw(*shaderP, wireframeView);
@@ -197,23 +173,16 @@ void renderScene(){
 	glUseProgram(program);
     glBindVertexArray(VAO);
 
-	unsigned int loc = glGetUniformLocation(program, "model");
+	/* unsigned int loc = glGetUniformLocation(program, "model");
 
-	glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(M));
-
-
-	// projection matrix
-
-		
+	glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(M)); */
 
 
 	
-	if(wireframeView)
-	{
+	if(wireframeView) {
   		glDrawArrays(GL_LINE_LOOP, 0, 36);
 	}
-	else 
-	{
+	else {
   		glDrawArrays(GL_TRIANGLES, 0, 36);
 	}
 
@@ -248,30 +217,15 @@ error_type_t registerCallbacks() {
 	return Success;
 }
 
-logging* logging::loggingInstance = nullptr;
 
-
-
-
-
-int main(int argc, char **argv) 
-{
-
-	logging* logger = logging::getInstance();
-	logger->setLogLevel(DEBUG);
-	//logger->log(DEBUG, "Hello, OpenGL! I'm debug.");
-	//logger->log(ERROR, "Hello, OpenGL! I'm error.");
-
-
+char* getModelPath(int argc, char **argv) {
 	char* filepath;
-	if(argc > 1)
-	{
+	if(argc > 1){
 		filepath = argv[1];
 		logger->log(INFO, "Abrindo arquivo...");
 
 	}
-	else
-	{
+	else{
 		filepath = DEFAULT_FILE_PATH;
 		logger->log(ERROR, "Nenhum arquivo recebido! Carregando arquivo padrão...");
 
@@ -281,24 +235,39 @@ int main(int argc, char **argv)
 
 	FILE *f = fopen(filepath, "r");
 
-	if(f == nullptr)
-	{
+	if(f == nullptr){
 		logger->log(ERROR, "Não foi possível abrir o arquivo.");
 		logger->log(ERROR, "Carregando arquivo padrão...");
 		filepath = DEFAULT_FILE_PATH;
 	}
+	fclose(f);
+	return filepath;
+}
+
+
+
+int main(int argc, char **argv) 
+{
+	logger->setLogLevel(DEBUG);
+	//logger->log(DEBUG, "Hello, OpenGL! I'm debug.");
+	//logger->log(ERROR, "Hello, OpenGL! I'm error.");
+
+	char* filepath = getModelPath(argc, argv);
+	
+	
 
 	setupGlut(&argc, argv);
 	glewInit(); 
 
 	Shader myShader("src/model_loading.vs", "src/model_loading.fs");
 	shaderP = &myShader;
+	
 
 	Model modelLoaded(filepath);
 	modelP = &modelLoaded;
 
-    //initData();
-    //initShaders();
+	initVAO();
+    initShaders();
 	registerCallbacks();
         	
 	
